@@ -12,5 +12,5 @@ namespace Shared.Data.Entities;
 
     // Relational Properties (Hangi kullanıcıya ait?)
     public string UserId { get; set; } = string.Empty;
-    public AppUser User { get; set; } = null!;
+    
     }
