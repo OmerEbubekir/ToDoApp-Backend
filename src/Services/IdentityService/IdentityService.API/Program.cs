@@ -8,6 +8,7 @@ using Microsoft.OpenApi.Models;
 using Shared.Data.Contexts;
 using Shared.Data.Entities;
 using Scalar.AspNetCore;
+using Shared.Core.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -86,6 +87,9 @@ builder.Services.AddOpenApi(options =>
     });
 });
 
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
+
 var app = builder.Build();
 
 // 6. HTTP Request Pipeline
@@ -102,6 +106,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseExceptionHandler();
 
 app.UseAuthentication();
 app.UseAuthorization();

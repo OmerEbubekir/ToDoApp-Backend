@@ -47,7 +47,7 @@ namespace ToDoService.API.Controllers
             var result = await _toDoService.DeleteAsync(id, userId);
 
             if (!result)
-                return NotFound(new { message = "Görev bulunamadı.." });
+                return Notf(new { message = "Görev bulunamadı.." });
 
             return Ok(new { message = "Görev başarıyla silindi" });
 
