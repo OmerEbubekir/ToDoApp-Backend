@@ -9,6 +9,8 @@ using Shared.Data.Contexts;
 using Shared.Data.Entities;
 using Scalar.AspNetCore;
 using Shared.Core.Middlewares;
+using FluentValidation;
+using IdentityService.Application.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +34,7 @@ builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddControllers();
 
+builder.Services.AddValidatorsFromAssemblyContaining<RegisterDtoValidator>();
 // 4. JWT Ayarlarý
 var jwtSettings = builder.Configuration.GetSection("JwtSettings");
 var secretKey = Encoding.UTF8.GetBytes(jwtSettings["Secret"]!);

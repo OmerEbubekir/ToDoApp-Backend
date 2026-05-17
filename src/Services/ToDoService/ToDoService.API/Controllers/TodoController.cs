@@ -61,7 +61,7 @@ namespace ToDoService.API.Controllers
         {
             var userId = GetUserId();
 
-            // Tutarlılık için throw Exception yerine Unauthorized dönüldü
+            
             if (string.IsNullOrEmpty(userId))
                 return Unauthorized();
 

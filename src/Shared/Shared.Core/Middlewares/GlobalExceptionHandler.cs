@@ -20,31 +20,40 @@ public class GlobalExceptionHandler : IExceptionHandler
         Exception exception,
         CancellationToken cancellationToken)
     {
-        // 1. Hatayı Terminale/Log'a yazdır
-        _logger.LogError(exception, "Sistemde bir hata meydana geldi: {Message}", exception.Message);
-
-        // 2. Hataya göre Status Code belirle
+        
         var statusCode = exception switch
         {
             NotFoundException => StatusCodes.Status404NotFound,
             UnauthorizedAccessException => StatusCodes.Status401Unauthorized,
-            _ => StatusCodes.Status500InternalServerError // Bilinmeyen hatalar için
+            ValidationAppException => StatusCodes.Status400BadRequest,
+            _ => StatusCodes.Status500InternalServerError
         };
 
-        // 3. Standart JSON yanıtımızı oluştur
+        
+        if (statusCode == StatusCodes.Status500InternalServerError)
+        {
+            
+            _logger.LogError(exception, "Kritik Sistem Hatası: {Message}", exception.Message);
+        }
+        else
+        {
+            
+            _logger.LogWarning("İstemci Hatası ({StatusCode}): {Message}", statusCode, exception.Message);
+        }
+
+        
         var errorResponse = new ErrorResponse
         {
             StatusCode = statusCode,
             Message = exception.Message,
-            // Sadece Internal Server Error ise stack trace'i gizle (güvenlik için)
-            Details = statusCode == 500 ? "Sunucu içi bir hata oluştu." : null
+            ValidationErrors = exception is ValidationAppException ve ? ve.Errors : null,
+            Details = statusCode == StatusCodes.Status500InternalServerError ? "Sunucu içi bir hata oluştu." : null
         };
 
         // 4. Yanıtı istemciye (kullanıcıya/frontend'e) gönder
         httpContext.Response.StatusCode = statusCode;
         await httpContext.Response.WriteAsJsonAsync(errorResponse, cancellationToken);
 
-        // true dönerek ".NET sen karışma, hatayı ben ele aldım" diyoruz.
         return true;
     }
 }

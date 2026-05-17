@@ -1,6 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="9.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\..\Shared\Shared.Core\Shared.Core.csproj" />
     <ProjectReference Include="..\..\..\Shared\Shared.Data\Shared.Data.csproj" />
   </ItemGroup>
