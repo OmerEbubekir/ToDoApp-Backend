@@ -1,6 +1,7 @@
 ﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Shared.Core.Exceptions;
 using ToDoService.Application.DTOs;
 using ToDoService.Application.Interfaces;
 
@@ -27,8 +28,9 @@ namespace ToDoService.API.Controllers
             var items = await _toDoService.GetAllByUserIdAsync(userId);
             return Ok(items);
         }
+
         [HttpPost]
-        public async Task<IActionResult> CreatateToDo([FromBody] CreateToDoDto createToDoDto)
+        public async Task<IActionResult> CreateToDo([FromBody] CreateToDoDto createToDoDto)
         {
             var userId = GetUserId();
             if (string.IsNullOrEmpty(userId))
@@ -37,6 +39,7 @@ namespace ToDoService.API.Controllers
             var item = await _toDoService.CreateAsync(createToDoDto, userId);
             return StatusCode(201, item);
         }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteToDo(Guid id)
         {
@@ -44,26 +47,30 @@ namespace ToDoService.API.Controllers
 
             if (string.IsNullOrEmpty(userId))
                 return Unauthorized();
+
             var result = await _toDoService.DeleteAsync(id, userId);
 
             if (!result)
-                return Notf(new { message = "Görev bulunamadı.." });
+                throw new NotFoundException("Görev bulunamadı veya bu görevi silmeye yetkiniz yok.");
 
             return Ok(new { message = "Görev başarıyla silindi" });
-
-
         }
+
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateToDo(Guid id, [FromBody] UpdateToDoDto updateToDoDto)
         {
             var userId = GetUserId();
+
+            // Tutarlılık için throw Exception yerine Unauthorized dönüldü
             if (string.IsNullOrEmpty(userId))
                 return Unauthorized();
-            var item = await _toDoService.UpdateAsync(id, updateToDoDto, userId);
-            if (item == null)
-                return NotFound(new { message = "Görev bulunamadı.." });
-            return Ok(item);
 
+            var item = await _toDoService.UpdateAsync(id, updateToDoDto, userId);
+
+            if (item == null)
+                throw new NotFoundException("Görev bulunamadı veya bu görevi silmeye yetkiniz yok.");
+
+            return Ok(item);
         }
     }
 }
