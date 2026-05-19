@@ -1,9 +1,9 @@
-﻿using IdentityService.Business.DTOs;
+﻿using IdentityService.Business.Models;
 
 namespace IdentityService.Business.Interfaces;
 
 public interface IAuthService
 {
-    Task<AuthResponse?> LoginAsync(LoginRequest request);
-    Task<bool> RegisterAsync(RegisterRequest request);
+    Task<AuthResult?> LoginAsync(LoginArgs args);
+    Task<bool> RegisterAsync(RegisterArgs args);
 }

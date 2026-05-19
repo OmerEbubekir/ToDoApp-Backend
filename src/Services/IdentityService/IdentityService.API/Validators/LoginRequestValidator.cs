@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
-using IdentityService.Business.DTOs;
+using IdentityService.API.Models;
 
-namespace IdentityService.Business.Validators;
+namespace IdentityService.API.Validators;
 
 public class LoginRequestValidator : AbstractValidator<LoginRequest>
 {

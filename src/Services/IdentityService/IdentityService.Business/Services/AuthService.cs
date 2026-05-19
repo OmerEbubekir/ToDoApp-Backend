@@ -5,8 +5,9 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using IdentityService.Business.DTOs;
+using AutoMapper;
 using IdentityService.Business.Interfaces;
+using IdentityService.Business.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -18,22 +19,24 @@ namespace IdentityService.Business.Services
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly IConfiguration _configuration;
-        public AuthService(UserManager<AppUser> userManager, IConfiguration configuration)
+        private readonly IMapper _mapper;
+        public AuthService(UserManager<AppUser> userManager, IConfiguration configuration, IMapper mapper)
         {
             _userManager = userManager;
             _configuration = configuration;
+            _mapper = mapper;
         }
 
-        public async Task<AuthResponse?> LoginAsync(LoginRequest request)
+        public async Task<AuthResult?> LoginAsync(LoginArgs args)
         {
-            var user=await _userManager.FindByEmailAsync(request.Email);
+            var user=await _userManager.FindByEmailAsync(args.Email);
             if (user == null)
                 return null;
-            var isPasswordValid = await _userManager.CheckPasswordAsync(user, request.Password);
+            var isPasswordValid = await _userManager.CheckPasswordAsync(user, args.Password);
             if (!isPasswordValid)
                 return null;
             var token= GenerateJwtToken(user);
-            return new AuthResponse
+            return new AuthResult
             {
                 Token = token.Token,
                 
@@ -41,7 +44,7 @@ namespace IdentityService.Business.Services
             };
         }
 
-        private AuthResponse GenerateJwtToken(AppUser user)
+        private AuthResult GenerateJwtToken(AppUser user)
         {
             var jwtSettings = _configuration.GetSection("JwtSettings");
             var secretKey = Encoding.UTF8.GetBytes(jwtSettings["Secret"]!);
@@ -68,22 +71,17 @@ namespace IdentityService.Business.Services
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
-            return new AuthResponse
+            return new AuthResult
             {
                 Token = tokenHandler.WriteToken(token)
                 
             };
         }
 
-        public async Task<bool> RegisterAsync(RegisterRequest request)
+        public async Task<bool> RegisterAsync(RegisterArgs args)
         {
-            var user= new AppUser
-            {
-                FullName = request.FullName,
-                Email = request.Email,
-                UserName = request.Email
-            };
-            var result = await _userManager.CreateAsync(user, request.Password);
+            var user = _mapper.Map<AppUser>(args);
+            var result = await _userManager.CreateAsync(user, args.Password);
             return result.Succeeded;
         }
     }

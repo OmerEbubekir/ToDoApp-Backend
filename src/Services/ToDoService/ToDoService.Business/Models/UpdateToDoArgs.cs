@@ -1,6 +1,5 @@
-﻿namespace ToDoService.Business.DTOs;
-
-public class UpdateToDoRequest
+﻿namespace ToDoService.Business.Models;
+public class UpdateToDoArgs
 {
     public string Title { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;

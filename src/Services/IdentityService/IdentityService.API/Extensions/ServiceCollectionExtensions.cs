@@ -2,7 +2,7 @@
 using FluentValidation;
 using IdentityService.Business.Interfaces;
 using IdentityService.Business.Services;
-using IdentityService.Business.Validators;
+using IdentityService.API.Validators;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +12,9 @@ using Shared.Core.Filters;
 using Shared.Core.Middlewares;
 using Shared.Data.Contexts;
 using Shared.Data.Entities;
-
+using IdentityService.API.Mappings;
+using Microsoft.Extensions.DependencyInjection;
+using IdentityService.Business.Mappings;
 namespace IdentityService.API.Extensions;
 
 public static class ServiceCollectionExtensions
@@ -67,6 +69,11 @@ public static class ServiceCollectionExtensions
         // 7. Global Hata Yönetimi & Swagger
         services.AddExceptionHandler<GlobalExceptionHandler>();
         services.AddProblemDetails();
+
+        services.AddAutoMapper(cfg => {
+            cfg.AddProfile<ApiMappingProfile>();
+            cfg.AddProfile<MappingProfile>();
+        });
 
         services.AddOpenApi(options =>
         {

@@ -1,6 +1,6 @@
-﻿namespace ToDoService.Business.DTOs;
+﻿namespace ToDoService.Business.Models;
 
-public class ToDoResponse
+public class ToDoResult
 {
     public Guid Id { get; set; }
     public string Title { get; set; } = string.Empty;

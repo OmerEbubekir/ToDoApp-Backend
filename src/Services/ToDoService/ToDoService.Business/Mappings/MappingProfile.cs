@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Shared.Data.Entities;
-using ToDoService.Business.DTOs;
+using ToDoService.Business.Models;
 
 namespace ToDoService.Business.Mappings;
 
@@ -9,10 +9,10 @@ public class MappingProfile : Profile
     public MappingProfile()
     {
         
-        CreateMap<CreateToDoRequest, ToDoItem>();
-        CreateMap<UpdateToDoRequest, ToDoItem>();
+        CreateMap<CreateToDoArgs, ToDoItem>();
+        CreateMap<UpdateToDoArgs, ToDoItem>();
 
         
-        CreateMap<ToDoItem, ToDoResponse>();
+        CreateMap<ToDoItem, ToDoResult>();
     }
 }   

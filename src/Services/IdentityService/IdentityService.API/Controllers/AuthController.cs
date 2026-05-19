@@ -1,5 +1,7 @@
-﻿using IdentityService.Business.DTOs;
+﻿using AutoMapper;
+using IdentityService.API.Models;
 using IdentityService.Business.Interfaces;
+using IdentityService.Business.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IdentityService.API.Controllers;
@@ -9,31 +11,30 @@ namespace IdentityService.API.Controllers;
 public class AuthController : ControllerBase
 {
     private readonly IAuthService _authService;
+    private readonly IMapper _mapper;
 
-    public AuthController(IAuthService authService)
+    public AuthController(IAuthService authService, IMapper mapper)
     {
         _authService = authService;
+        _mapper = mapper;
     }
 
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginRequest request)
     {
-        var response = await _authService.LoginAsync(request);
+        // 1. Request -> Args
+        var args = _mapper.Map<LoginArgs>(request);
 
-        if (response == null)
+        var result = await _authService.LoginAsync(args);
+
+        if (result == null)
             return Unauthorized(new { message = "Invalid email or password." });
 
-        return Ok(response); 
+        // 2. Result -> Response
+        var response = _mapper.Map<AuthResponse>(result);
+
+        return Ok(response);
     }
 
-    [HttpPost("register")]
-    public async Task<IActionResult> Register([FromBody] RegisterRequest request)
-    {
-        var result = await _authService.RegisterAsync(request);
-
-        if (!result)
-            return BadRequest(new { message = "User creation failed." });
-
-        return StatusCode(201, new { message = "User successfully created." });
-    }
+   
 }

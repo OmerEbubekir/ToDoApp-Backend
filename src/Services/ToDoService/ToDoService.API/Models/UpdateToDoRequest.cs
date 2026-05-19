@@ -1,7 +1,7 @@
-﻿namespace ToDoService.Business.DTOs;
-
-public class CreateToDoRequest
+﻿namespace ToDoService.API.Models;
+public class UpdateToDoRequest
 {
     public string Title { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
+    public bool IsCompleted { get; set; }
 }

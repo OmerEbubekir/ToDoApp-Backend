@@ -1,6 +1,8 @@
-﻿using FluentValidation;
-using IdentityService.Business.DTOs;
+﻿using AutoMapper;
+using FluentValidation;
+using IdentityService.API.Models;
 using IdentityService.Business.Interfaces;
+using IdentityService.Business.Models;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -11,23 +13,25 @@ namespace IdentityService.API.Controllers;
 public class UserController : ControllerBase
 {
     private readonly IAuthService _authService;
-    
+    private readonly IMapper _mapper;
 
-    public UserController(IAuthService authService)
+    public UserController(IAuthService authService, IMapper mapper)
     {
         _authService = authService;
-       
+        _mapper = mapper;
     }
 
     [HttpPost("register")]
-    public async Task<IActionResult> Register([FromBody] RegisterRequest dto)
-    {   
-                     
-        var isSuccess = await _authService.RegisterAsync(dto);
+    public async Task<IActionResult> Register([FromBody] RegisterRequest request)
+    {
+      
+        var args = _mapper.Map<RegisterArgs>(request);
 
-        if (!isSuccess)
-            return BadRequest(new { message = "Kullanıcı kaydı başarısız oldu. E-posta zaten kullanımda olabilir." });
+        var result = await _authService.RegisterAsync(args);
 
-        return StatusCode(201, new { message = "Kullanıcı başarıyla oluşturuldu." });
+        if (!result)
+            return BadRequest(new { message = "User creation failed." });
+
+        return StatusCode(201, new { message = "User successfully created." });
     }
 }

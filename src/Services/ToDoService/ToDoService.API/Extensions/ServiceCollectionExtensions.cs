@@ -8,6 +8,7 @@ using Shared.Core.Interfaces;
 using Shared.Core.Middlewares;
 using Shared.Core.Services;
 using Shared.Data.Contexts;
+using ToDoService.API.Mappings;
 using ToDoService.Business.Interfaces;
 using ToDoService.Business.Mappings;
 using ToDoService.Business.Services;
@@ -27,9 +28,10 @@ public static class ServiceCollectionExtensions
         
         services.AddScoped<IToDoService, ToDoManager>();
 
-        services.AddAutoMapper(config =>
+        services.AddAutoMapper(cfg =>
         {
-            config.AddProfile<MappingProfile>();
+            cfg.AddProfile<ApiMappingProfile>(); 
+            cfg.AddProfile<MappingProfile>();    
         });
 
 

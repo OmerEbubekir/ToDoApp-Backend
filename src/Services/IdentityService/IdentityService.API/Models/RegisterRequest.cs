@@ -1,4 +1,4 @@
-﻿namespace IdentityService.Business.DTOs;
+﻿namespace IdentityService.API.Models;
 
 public class RegisterRequest
 {
