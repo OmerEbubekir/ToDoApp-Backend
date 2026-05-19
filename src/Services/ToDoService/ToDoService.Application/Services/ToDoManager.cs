@@ -46,7 +46,7 @@ namespace ToDoService.Application.Services
             return await _context.ToDoItems.Where(x=>x.UserId==userId).ToListAsync();
         }
 
-        public async Task<ToDoItem> UpdateAsync(Guid id, UpdateToDoDto updateToDoDto, string userId)
+        public async Task<ToDoItem?> UpdateAsync(Guid id, UpdateToDoDto updateToDoDto, string userId)
         {
             var item = await _context.ToDoItems.FirstOrDefaultAsync(x => x.Id == id && x.UserId == userId);
             if (item == null)

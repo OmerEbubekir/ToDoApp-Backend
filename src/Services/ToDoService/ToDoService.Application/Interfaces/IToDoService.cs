@@ -8,7 +8,7 @@ namespace ToDoService.Application.Interfaces
     {
         Task<List<ToDoItem>> GetAllByUserIdAsync(string userId);
         Task<ToDoItem> CreateAsync(CreateToDoDto createToDoDto, string userId);
-        Task<ToDoItem> UpdateAsync(Guid id, UpdateToDoDto updateToDoDto, string userId);
+        Task<ToDoItem?> UpdateAsync(Guid id, UpdateToDoDto updateToDoDto, string userId);
         Task<bool> DeleteAsync(Guid id, string userId);
     }
 }
