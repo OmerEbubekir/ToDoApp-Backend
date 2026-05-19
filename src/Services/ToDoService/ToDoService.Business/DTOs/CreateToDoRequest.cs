@@ -1,4 +1,4 @@
-﻿namespace ToDoService.Application.DTOs;
+﻿namespace ToDoService.Business.DTOs;
 
 public class CreateToDoRequest
 {

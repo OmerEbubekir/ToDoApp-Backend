@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
-using IdentityService.Application.DTOs;
+using IdentityService.Business.DTOs;
 
-namespace IdentityService.Application.Validators;
+namespace IdentityService.Business.Validators;
 
-public class RegisterDtoValidator : AbstractValidator<RegisterDto>
+public class RegisterDtoValidator : AbstractValidator<RegisterRequest>
 {
     public RegisterDtoValidator()
     {

@@ -1,6 +1,6 @@
-﻿using ToDoService.Application.DTOs;
+﻿using ToDoService.Business.DTOs;
 
-namespace ToDoService.Application.Interfaces;
+namespace ToDoService.Business.Interfaces;
 
 public interface IToDoService
 {

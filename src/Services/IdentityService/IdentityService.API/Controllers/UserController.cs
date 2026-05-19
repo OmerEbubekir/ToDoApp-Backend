@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
-using IdentityService.Application.DTOs;
-using IdentityService.Application.Interfaces;
+using IdentityService.Business.DTOs;
+using IdentityService.Business.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Core.Exceptions;
 
@@ -13,15 +13,15 @@ public class UserController : ControllerBase
     private readonly IAuthService _authService;
     
 
-    public UserController(IAuthService authService, IValidator<RegisterDto> validator)
+    public UserController(IAuthService authService, IValidator<RegisterRequest> validator)
     {
         _authService = authService;
        
     }
 
     [HttpPost("register")]
-    public async Task<IActionResult> Register([FromBody] RegisterDto dto)
-    {
+    public async Task<IActionResult> Register([FromBody] RegisterRequest dto)
+    {   
                      
         var isSuccess = await _authService.RegisterAsync(dto);
 

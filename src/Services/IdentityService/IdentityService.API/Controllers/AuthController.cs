@@ -1,5 +1,5 @@
-﻿using IdentityService.Application.DTOs;
-using IdentityService.Application.Interfaces;
+﻿using IdentityService.Business.DTOs;
+using IdentityService.Business.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IdentityService.API.Controllers;
@@ -17,7 +17,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login([FromBody] LoginDto dto)
+    public async Task<IActionResult> Login([FromBody] LoginRequest dto)
     {
         
         var token = await _authService.LoginAsync(dto);

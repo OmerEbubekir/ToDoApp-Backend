@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Shared.Data.Entities;
-using ToDoService.Application.DTOs;
+using ToDoService.Business.DTOs;
 
-namespace ToDoService.Application.Mappings;
+namespace ToDoService.Business.Mappings;
 
 public class MappingProfile : Profile
 {

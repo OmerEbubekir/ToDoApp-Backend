@@ -1,8 +1,8 @@
 ﻿using System.Text;
 using FluentValidation;
-using IdentityService.Application.Interfaces;
-using IdentityService.Application.Services;
-using IdentityService.Application.Validators;
+using IdentityService.Business.Interfaces;
+using IdentityService.Business.Services;
+using IdentityService.Business.Validators;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

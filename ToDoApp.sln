@@ -15,13 +15,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{98
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IdentityService", "IdentityService", "{3D2E8631-8982-4CD8-85A8-437089729894}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityService.Application", "src\Services\IdentityService\IdentityService.Application\IdentityService.Application.csproj", "{8DFA5D65-FD84-48FA-A7C5-217A6C38566E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityService.Business", "src\Services\IdentityService\IdentityService.Business\IdentityService.Business.csproj", "{8DFA5D65-FD84-48FA-A7C5-217A6C38566E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityService.API", "src\Services\IdentityService\IdentityService.API\IdentityService.API.csproj", "{CCA68466-96DD-444C-9F6D-EC86EB484C06}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ToDoService", "ToDoService", "{B262E713-B7F0-99F4-9E58-08C90363AD78}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoService.Application", "src\Services\ToDoService\ToDoService.Application\ToDoService.Application.csproj", "{05DCDE0B-32F1-4715-A6BD-B96A4FDEEE5D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoService.Business", "src\Services\ToDoService\ToDoService.Business\ToDoService.Business.csproj", "{05DCDE0B-32F1-4715-A6BD-B96A4FDEEE5D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoService.API", "src\Services\ToDoService\ToDoService.API\ToDoService.API.csproj", "{9268BE9B-EA65-4987-9FE6-FDE96434E6D2}"
 EndProject
@@ -122,5 +122,8 @@ Global
 		{B262E713-B7F0-99F4-9E58-08C90363AD78} = {984BB9B3-3FA3-BE33-9484-CAC21695A33C}
 		{05DCDE0B-32F1-4715-A6BD-B96A4FDEEE5D} = {B262E713-B7F0-99F4-9E58-08C90363AD78}
 		{9268BE9B-EA65-4987-9FE6-FDE96434E6D2} = {B262E713-B7F0-99F4-9E58-08C90363AD78}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {871198D9-5303-44CC-9412-6EFC288AB811}
 	EndGlobalSection
 EndGlobal

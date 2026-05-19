@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Shared.Core.Exceptions;
 using Shared.Core.Interfaces; 
-using ToDoService.Application.DTOs;
-using ToDoService.Application.Interfaces;
+using ToDoService.Business.DTOs;
+using ToDoService.Business.Interfaces;
 
 namespace ToDoService.API.Controllers
 {

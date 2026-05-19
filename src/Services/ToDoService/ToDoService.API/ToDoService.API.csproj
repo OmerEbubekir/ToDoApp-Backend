@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ToDoService.Application\ToDoService.Application.csproj" />
+	  <ProjectReference Include="..\ToDoService.Business\ToDoService.Business.csproj" />
     <ProjectReference Include="..\..\..\Shared\Shared.Core\Shared.Core.csproj" />
     <ProjectReference Include="..\..\..\Shared\Shared.Data\Shared.Data.csproj" />
   </ItemGroup>

@@ -5,14 +5,14 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using IdentityService.Application.DTOs;
-using IdentityService.Application.Interfaces;
+using IdentityService.Business.DTOs;
+using IdentityService.Business.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Shared.Data.Entities;
 
-namespace IdentityService.Application.Services
+namespace IdentityService.Business.Services
 {
     public class AuthService : IAuthService
     {
@@ -24,7 +24,7 @@ namespace IdentityService.Application.Services
             _configuration = configuration;
         }
 
-        public async Task<TokenDto?> LoginAsync(LoginDto dto)
+        public async Task<TokenResult?> LoginAsync(LoginRequest dto)
         {
             var user=await _userManager.FindByEmailAsync(dto.Email);
             if (user == null)
@@ -35,7 +35,7 @@ namespace IdentityService.Application.Services
             return GenerateJwtToken(user);
         }
 
-        private TokenDto GenerateJwtToken(AppUser user)
+        private TokenResult GenerateJwtToken(AppUser user)
         {
             var jwtSettings = _configuration.GetSection("JwtSettings");
             var secretKey = Encoding.UTF8.GetBytes(jwtSettings["Secret"]!);
@@ -62,14 +62,14 @@ namespace IdentityService.Application.Services
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
-            return new TokenDto
+            return new TokenResult
             {
                 AccessToken = tokenHandler.WriteToken(token),
                 Expiration = tokenDescriptor.Expires.Value
             };
         }
 
-        public async Task<bool> RegisterAsync(RegisterDto dto)
+        public async Task<bool> RegisterAsync(RegisterRequest dto)
         {
             var user= new AppUser
             {

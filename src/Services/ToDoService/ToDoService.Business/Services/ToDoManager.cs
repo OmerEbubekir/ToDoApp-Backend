@@ -2,10 +2,10 @@
 using Microsoft.EntityFrameworkCore;
 using Shared.Data.Contexts;
 using Shared.Data.Entities;
-using ToDoService.Application.DTOs;
-using ToDoService.Application.Interfaces;
+using ToDoService.Business.DTOs;
+using ToDoService.Business.Interfaces;
 
-namespace ToDoService.Application.Services;
+namespace ToDoService.Business.Services;
 
 public class ToDoManager : IToDoService
 {

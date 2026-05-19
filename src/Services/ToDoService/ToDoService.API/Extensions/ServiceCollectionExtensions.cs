@@ -1,8 +1,6 @@
 ﻿using System.Text;
-using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Shared.Core.Filters;
@@ -10,9 +8,9 @@ using Shared.Core.Interfaces;
 using Shared.Core.Middlewares;
 using Shared.Core.Services;
 using Shared.Data.Contexts;
-using ToDoService.Application.Interfaces;
-using ToDoService.Application.Mappings;
-using ToDoService.Application.Services;
+using ToDoService.Business.Interfaces;
+using ToDoService.Business.Mappings;
+using ToDoService.Business.Services;
 
 namespace ToDoService.API.Extensions;
 
