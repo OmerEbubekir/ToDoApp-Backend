@@ -31,10 +31,10 @@ namespace ToDoService.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateToDo([FromBody] CreateToDoDto createToDoDto)
+        public async Task<IActionResult> CreateToDo([FromBody] CreateToDoRequest CreateToDoRequest)
         {
             var userId = _currentUserService.User!.Id;
-            var item = await _toDoService.CreateAsync(createToDoDto, userId);
+            var item = await _toDoService.CreateAsync(CreateToDoRequest, userId);
             return StatusCode(201, item);
         }
 
@@ -51,10 +51,10 @@ namespace ToDoService.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateToDo(Guid id, [FromBody] UpdateToDoDto updateToDoDto)
+        public async Task<IActionResult> UpdateToDo(Guid id, [FromBody] UpdateToDoRequest UpdateToDoRequest)
         {
             var userId = _currentUserService.User!.Id;
-            var item = await _toDoService.UpdateAsync(id, updateToDoDto, userId);
+            var item = await _toDoService.UpdateAsync(id, UpdateToDoRequest, userId);
 
             if (item == null)
                 throw new NotFoundException("Görev bulunamadı veya bu görevi silmeye yetkiniz yok.");

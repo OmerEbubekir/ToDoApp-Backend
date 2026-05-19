@@ -1,6 +1,8 @@
 ﻿using System.Text;
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Shared.Core.Filters;
@@ -9,9 +11,9 @@ using Shared.Core.Middlewares;
 using Shared.Core.Services;
 using Shared.Data.Contexts;
 using ToDoService.Application.Interfaces;
+using ToDoService.Application.Mappings;
 using ToDoService.Application.Services;
 
-      
 namespace ToDoService.API.Extensions;
 
 
@@ -26,6 +28,13 @@ public static class ServiceCollectionExtensions
 
         
         services.AddScoped<IToDoService, ToDoManager>();
+
+        services.AddAutoMapper(config =>
+        {
+            config.AddProfile<MappingProfile>();
+        });
+
+
         services.AddControllers(options =>
         {
             options.Filters.Add<ValidationFilter>();

@@ -1,14 +1,12 @@
-﻿
-using Shared.Data.Entities;
-using ToDoService.Application.DTOs;
+﻿using ToDoService.Application.DTOs;
 
-namespace ToDoService.Application.Interfaces
+namespace ToDoService.Application.Interfaces;
+
+public interface IToDoService
 {
-    public interface IToDoService
-    {
-        Task<List<ToDoItem>> GetAllByUserIdAsync(string userId);
-        Task<ToDoItem> CreateAsync(CreateToDoDto createToDoDto, string userId);
-        Task<ToDoItem?> UpdateAsync(Guid id, UpdateToDoDto updateToDoDto, string userId);
-        Task<bool> DeleteAsync(Guid id, string userId);
-    }
+    
+    Task<List<ToDoResponse>> GetAllByUserIdAsync(string userId);
+    Task<ToDoResponse> CreateAsync(CreateToDoRequest request, string userId);
+    Task<ToDoResponse?> UpdateAsync(Guid id, UpdateToDoRequest request, string userId);
+    Task<bool> DeleteAsync(Guid id, string userId);
 }
