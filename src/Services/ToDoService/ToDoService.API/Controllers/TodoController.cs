@@ -19,7 +19,7 @@ namespace ToDoService.API.Controllers
             _toDoService = toDoService;
         }
 
-        private string GetUserId() => User.FindFirstValue(ClaimTypes.NameIdentifier) ?? string.Empty;
+        private string GetUserId() => User.FindFirstValue(ClaimTypes.NameIdentifier)!;
 
         [HttpGet]
         public async Task<IActionResult> GetMyToDos()
@@ -33,8 +33,7 @@ namespace ToDoService.API.Controllers
         public async Task<IActionResult> CreateToDo([FromBody] CreateToDoDto createToDoDto)
         {
             var userId = GetUserId();
-            if (string.IsNullOrEmpty(userId))
-                return Unauthorized();
+            
 
             var item = await _toDoService.CreateAsync(createToDoDto, userId);
             return StatusCode(201, item);
@@ -45,9 +44,7 @@ namespace ToDoService.API.Controllers
         {
             var userId = GetUserId();
 
-            if (string.IsNullOrEmpty(userId))
-                return Unauthorized();
-
+            
             var result = await _toDoService.DeleteAsync(id, userId);
 
             if (!result)
@@ -62,9 +59,6 @@ namespace ToDoService.API.Controllers
             var userId = GetUserId();
 
             
-            if (string.IsNullOrEmpty(userId))
-                return Unauthorized();
-
             var item = await _toDoService.UpdateAsync(id, updateToDoDto, userId);
 
             if (item == null)
