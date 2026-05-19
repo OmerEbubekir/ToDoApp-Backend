@@ -3,11 +3,14 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Shared.Core.Interfaces;
 using Shared.Core.Middlewares;
+using Shared.Core.Services;
 using Shared.Data.Contexts;
 using ToDoService.Application.Interfaces;
 using ToDoService.Application.Services;
 
+      
 namespace ToDoService.API.Extensions;
 
 
@@ -23,8 +26,9 @@ public static class ServiceCollectionExtensions
         
         services.AddScoped<IToDoService, ToDoManager>();
         services.AddControllers();
+        services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+        services.AddScoped<ICurrentUserService, CurrentUserService>();
 
-       
         var jwtSettings = configuration.GetSection("JwtSettings");
         var secretKey = Encoding.UTF8.GetBytes(jwtSettings["Secret"]!);
 

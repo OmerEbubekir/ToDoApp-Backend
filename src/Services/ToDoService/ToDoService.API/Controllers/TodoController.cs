@@ -1,7 +1,7 @@
-﻿using System.Security.Claims;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Core.Exceptions;
+using Shared.Core.Interfaces; 
 using ToDoService.Application.DTOs;
 using ToDoService.Application.Interfaces;
 
@@ -13,18 +13,19 @@ namespace ToDoService.API.Controllers
     public class TodoController : ControllerBase
     {
         private readonly IToDoService _toDoService;
+        private readonly ICurrentUserService _currentUserService; 
 
-        public TodoController(IToDoService toDoService)
+        public TodoController(IToDoService toDoService, ICurrentUserService currentUserService)
         {
             _toDoService = toDoService;
+            _currentUserService = currentUserService;
         }
-
-        private string GetUserId() => User.FindFirstValue(ClaimTypes.NameIdentifier)!;
 
         [HttpGet]
         public async Task<IActionResult> GetMyToDos()
         {
-            var userId = GetUserId();
+            
+            var userId = _currentUserService.User!.Id;
             var items = await _toDoService.GetAllByUserIdAsync(userId);
             return Ok(items);
         }
@@ -32,9 +33,7 @@ namespace ToDoService.API.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateToDo([FromBody] CreateToDoDto createToDoDto)
         {
-            var userId = GetUserId();
-            
-
+            var userId = _currentUserService.User!.Id;
             var item = await _toDoService.CreateAsync(createToDoDto, userId);
             return StatusCode(201, item);
         }
@@ -42,9 +41,7 @@ namespace ToDoService.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteToDo(Guid id)
         {
-            var userId = GetUserId();
-
-            
+            var userId = _currentUserService.User!.Id;
             var result = await _toDoService.DeleteAsync(id, userId);
 
             if (!result)
@@ -56,9 +53,7 @@ namespace ToDoService.API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateToDo(Guid id, [FromBody] UpdateToDoDto updateToDoDto)
         {
-            var userId = GetUserId();
-
-            
+            var userId = _currentUserService.User!.Id;
             var item = await _toDoService.UpdateAsync(id, updateToDoDto, userId);
 
             if (item == null)
