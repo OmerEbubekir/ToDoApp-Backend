@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Shared.Core.Filters;
 using Shared.Core.Interfaces;
 using Shared.Core.Middlewares;
 using Shared.Core.Services;
@@ -25,7 +26,10 @@ public static class ServiceCollectionExtensions
 
         
         services.AddScoped<IToDoService, ToDoManager>();
-        services.AddControllers();
+        services.AddControllers(options =>
+        {
+            options.Filters.Add<ValidationFilter>();
+        });
         services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         services.AddScoped<ICurrentUserService, CurrentUserService>();
 

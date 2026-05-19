@@ -11,28 +11,18 @@ namespace IdentityService.API.Controllers;
 public class UserController : ControllerBase
 {
     private readonly IAuthService _authService;
-    private readonly IValidator<RegisterDto> _validator; 
+    
 
     public UserController(IAuthService authService, IValidator<RegisterDto> validator)
     {
         _authService = authService;
-        _validator = validator;
+       
     }
 
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] RegisterDto dto)
     {
-       
-        var validationResult = await _validator.ValidateAsync(dto);
-
-       
-        if (!validationResult.IsValid)
-        {
-            var errors = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
-            throw new ValidationAppException(errors);
-        }
-
-       
+                     
         var isSuccess = await _authService.RegisterAsync(dto);
 
         if (!isSuccess)
