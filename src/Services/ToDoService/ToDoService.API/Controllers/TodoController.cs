@@ -45,9 +45,9 @@ namespace ToDoService.API.Controllers
             var result = await _toDoService.DeleteAsync(id, userId);
 
             if (!result)
-                throw new NotFoundException("Görev bulunamadı veya bu görevi silmeye yetkiniz yok.");
+                throw new NotFoundException("Task not found or you do not have permission to delete it.");
 
-            return Ok(new { message = "Görev başarıyla silindi" });
+            return Ok(new { message = "Task successfully deleted." });
         }
 
         [HttpPut("{id}")]
@@ -57,7 +57,7 @@ namespace ToDoService.API.Controllers
             var item = await _toDoService.UpdateAsync(id, UpdateToDoRequest, userId);
 
             if (item == null)
-                throw new NotFoundException("Görev bulunamadı veya bu görevi silmeye yetkiniz yok.");
+                throw new NotFoundException("Task not found or you do not have permission to update it."); 
 
             return Ok(item);
         }

@@ -2,7 +2,7 @@
 using IdentityService.Business.DTOs;
 using IdentityService.Business.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Shared.Core.Exceptions;
+
 
 namespace IdentityService.API.Controllers;
 
@@ -13,7 +13,7 @@ public class UserController : ControllerBase
     private readonly IAuthService _authService;
     
 
-    public UserController(IAuthService authService, IValidator<RegisterRequest> validator)
+    public UserController(IAuthService authService)
     {
         _authService = authService;
        

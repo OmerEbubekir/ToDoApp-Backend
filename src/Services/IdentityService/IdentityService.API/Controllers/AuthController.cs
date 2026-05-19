@@ -21,7 +21,7 @@ public class AuthController : ControllerBase
         var response = await _authService.LoginAsync(request);
 
         if (response == null)
-            return Unauthorized(new { message = "E-posta veya şifre hatalı." });
+            return Unauthorized(new { message = "Invalid email or password." });
 
         return Ok(response); 
     }
@@ -32,8 +32,8 @@ public class AuthController : ControllerBase
         var result = await _authService.RegisterAsync(request);
 
         if (!result)
-            return BadRequest(new { message = "Kullanıcı oluşturulamadı." });
+            return BadRequest(new { message = "User creation failed." });
 
-        return StatusCode(201, new { message = "Kullanıcı başarıyla oluşturuldu." });
+        return StatusCode(201, new { message = "User successfully created." });
     }
 }
