@@ -31,10 +31,10 @@ namespace ToDoService.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateToDo([FromBody] CreateToDoRequest CreateToDoRequest)
+        public async Task<IActionResult> CreateToDo([FromBody] CreateToDoRequest request)
         {
             var userId = _currentUserService.User!.Id;
-            var item = await _toDoService.CreateAsync(CreateToDoRequest, userId);
+            var item = await _toDoService.CreateAsync(request, userId);
             return StatusCode(201, item);
         }
 
@@ -51,10 +51,10 @@ namespace ToDoService.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateToDo(Guid id, [FromBody] UpdateToDoRequest UpdateToDoRequest)
+        public async Task<IActionResult> UpdateToDo(Guid id, [FromBody] UpdateToDoRequest request)
         {
             var userId = _currentUserService.User!.Id;
-            var item = await _toDoService.UpdateAsync(id, UpdateToDoRequest, userId);
+            var item = await _toDoService.UpdateAsync(id, request, userId);
 
             if (item == null)
                 throw new NotFoundException("Task not found or you do not have permission to update it."); 
