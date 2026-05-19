@@ -24,18 +24,24 @@ namespace IdentityService.Business.Services
             _configuration = configuration;
         }
 
-        public async Task<TokenResult?> LoginAsync(LoginRequest dto)
+        public async Task<AuthResponse?> LoginAsync(LoginRequest request)
         {
-            var user=await _userManager.FindByEmailAsync(dto.Email);
+            var user=await _userManager.FindByEmailAsync(request.Email);
             if (user == null)
                 return null;
-            var isPasswordValid = await _userManager.CheckPasswordAsync(user, dto.Password);
+            var isPasswordValid = await _userManager.CheckPasswordAsync(user, request.Password);
             if (!isPasswordValid)
                 return null;
-            return GenerateJwtToken(user);
+            var token= GenerateJwtToken(user);
+            return new AuthResponse
+            {
+                Token = token.Token,
+                
+                Expiration = DateTime.UtcNow.AddHours(1)
+            };
         }
 
-        private TokenResult GenerateJwtToken(AppUser user)
+        private AuthResponse GenerateJwtToken(AppUser user)
         {
             var jwtSettings = _configuration.GetSection("JwtSettings");
             var secretKey = Encoding.UTF8.GetBytes(jwtSettings["Secret"]!);
@@ -62,22 +68,22 @@ namespace IdentityService.Business.Services
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
-            return new TokenResult
+            return new AuthResponse
             {
-                AccessToken = tokenHandler.WriteToken(token),
-                Expiration = tokenDescriptor.Expires.Value
+                Token = tokenHandler.WriteToken(token)
+                
             };
         }
 
-        public async Task<bool> RegisterAsync(RegisterRequest dto)
+        public async Task<bool> RegisterAsync(RegisterRequest request)
         {
             var user= new AppUser
             {
-                FullName = dto.FullName,
-                Email = dto.Email,
-                UserName = dto.Email
+                FullName = request.FullName,
+                Email = request.Email,
+                UserName = request.Email
             };
-            var result = await _userManager.CreateAsync(user, dto.Password);
+            var result = await _userManager.CreateAsync(user, request.Password);
             return result.Succeeded;
         }
     }

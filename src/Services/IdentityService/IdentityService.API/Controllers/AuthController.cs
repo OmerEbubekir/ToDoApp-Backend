@@ -9,7 +9,6 @@ namespace IdentityService.API.Controllers;
 public class AuthController : ControllerBase
 {
     private readonly IAuthService _authService;
-    
 
     public AuthController(IAuthService authService)
     {
@@ -17,14 +16,24 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login([FromBody] LoginRequest dto)
+    public async Task<IActionResult> Login([FromBody] LoginRequest request)
     {
-        
-        var token = await _authService.LoginAsync(dto);
+        var response = await _authService.LoginAsync(request);
 
-        if (token == null)
+        if (response == null)
             return Unauthorized(new { message = "E-posta veya şifre hatalı." });
 
-        return Ok(token);
+        return Ok(response); 
+    }
+
+    [HttpPost("register")]
+    public async Task<IActionResult> Register([FromBody] RegisterRequest request)
+    {
+        var result = await _authService.RegisterAsync(request);
+
+        if (!result)
+            return BadRequest(new { message = "Kullanıcı oluşturulamadı." });
+
+        return StatusCode(201, new { message = "Kullanıcı başarıyla oluşturuldu." });
     }
 }

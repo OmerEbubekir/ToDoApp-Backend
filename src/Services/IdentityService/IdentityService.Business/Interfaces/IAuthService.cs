@@ -4,6 +4,6 @@ namespace IdentityService.Business.Interfaces;
 
 public interface IAuthService
 {
-    Task<bool> RegisterAsync(RegisterRequest dto);
-    Task<TokenResult?> LoginAsync(LoginRequest dto);
+    Task<AuthResponse?> LoginAsync(LoginRequest request);
+    Task<bool> RegisterAsync(RegisterRequest request);
 }

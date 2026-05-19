@@ -36,7 +36,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IAuthService, AuthService>();
 
         // 4. FluentValidation Kurallarını Sisteme Tanıtma
-        services.AddValidatorsFromAssemblyContaining<RegisterDtoValidator>();
+        services.AddValidatorsFromAssemblyContaining<RegisterRequestValidator>();
 
         // 5. Controller'lar ve ValidationFilter (Araya giren güvenlik duvarımız)
         services.AddControllers(options =>
